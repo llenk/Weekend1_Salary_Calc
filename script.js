@@ -25,8 +25,13 @@ function addEmployeeToArray() {
 }
 
 function updateMonthlyCosts() {
-    let costs = calculateMonthlyCosts();
-    console.log(costs);
+    let costs = calculateMonthlyCosts(); //costs here will be a number
+    if (costs > 20000) {
+        $('#costs').css('background', 'red');
+    }
+    $('#costs').text('Total Monthly: $' + addDecimals(costs)); //addDecimals(costs) here will be a string
+    console.log(addDecimals(costs));
+    
 }
 
 function calculateMonthlyCosts() {
@@ -34,7 +39,34 @@ function calculateMonthlyCosts() {
     for (let i=0; i<arrayOfEmployees.length; i++) {
         yearlyCosts += arrayOfEmployees[i].salary;
     }
-    return yearlyCosts / 12;
+    let monthlyCosts = yearlyCosts / 12;
+    monthlyCosts = convertToDollars(monthlyCosts);
+    return monthlyCosts;
+}
+
+// This function takes a number and converts is to dollar format (truncating decimals or adding zeros as needed).
+// It does not add a dollar sign.
+function convertToDollars(amount) {
+    amount *= 100;
+    amount = Math.round(amount);
+    amount /= 100;
+    return amount; //amount here is a string
+
+}
+
+function addDecimals(amount) {
+    amount *= 100;
+    let decimals = ''; //these are the string of decimals that have to be appended for accurate display (4000 should display as 4000.00)
+    amount = Math.round(amount);
+    if (amount.toString().substr(-2, 2) == '00') {
+        decimals = '.00';
+    }
+    else if (amount.toString().substr(-1, 1) == '0') {
+        decimals = '0';
+    }
+    amount /= 100;
+    amount = amount.toString() + decimals;
+    return amount; //amount here is a string
 }
 
 let arrayOfEmployees = [];
