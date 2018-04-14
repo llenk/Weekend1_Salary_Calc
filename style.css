@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+}
+h1 {
+    background: darkgray;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold; 
+    font-size: 50px;
+}
+h2 {
+    font-size: 30px;
+}
+br {
+    height: 10px;
+}
+button {
+    font-size: 20px;
+    border-radius: 6px;
+    float: right;
+    background: lightgray;
+    width: 100px;
+    margin: 10px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+td, th {
+    border: 1px solid gray;
+    padding: 7px;
+    font-size: 24px;
+}
+th {
+    background: lightgray;
+    text-align: left;
+}
+input {
+    height: 24px;
+    font-size: 20px;
+}
