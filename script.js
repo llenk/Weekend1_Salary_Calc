@@ -2,6 +2,7 @@ $(document).ready(onReady);
 
 function onReady() {
     $('#submitButt').on('click', addEmployee);
+    $('#listOfEmployees').on('click', '.fire', fireEmployee);
 }
 
 //the function below adds the input to the employee array, adds them to the DOM, and updates the monthly costs
@@ -48,7 +49,7 @@ function calculateMonthlyCosts() {
 }//end calculateMonthlyCosts
 
 // This function takes a number and truncates the decimals after 2
-// It does not add a dollar sign.
+// It's for calculations, not displaying
 function convertToDollars(amount) {
     amount *= 100;
     amount = Math.round(amount);
@@ -59,6 +60,10 @@ function convertToDollars(amount) {
 
 //the function below formats the monthly costs into dollar format with exactly two decimal places as a string
 function formatMoney(amount) {
+    //if the amount is zero, that's illegal, but the below code doesn't work either
+    if (amount == 0) {
+        return '0.00';
+    }
     //this section adds the decimal places, if needed
     amount *= 100;
     let decimals = ''; //these are the string of decimals that have to be appended for accurate display (4000 should display as 4000.00)
@@ -72,14 +77,21 @@ function formatMoney(amount) {
     amount /= 100;
     amount = amount.toString() + decimals;
     
-    // let formattedAmount = amount.slice(-3);
-    // amount = amount.slice(0, -3);
-    // //this section adds the commas
-    // while (amount.length > 2) {
-        
-    // }
-    return amount; //amount here is a string
+    let formattedAmount = amount.slice(-3);
+    amount = amount.slice(0, -3);
+    //this section adds the commas
+    while (amount.length > 3) {
+        formattedAmount = ',' + amount.slice(-3) + formattedAmount;
+        amount = amount.slice(0, -3);
+    }
+    formattedAmount = amount + formattedAmount;
+    return formattedAmount; //amount here is a string
 }//end formatMoney
+
+function fireEmployee() {
+    console.log(this);
+    this.parentElement.parentElement.remove();
+}
 
 let arrayOfEmployees = [];
 
@@ -91,6 +103,7 @@ class Employee {
         this.id = id;
         this.title = title;
         this.salary = Number(salary); 
+        this.formattedSalary = formatMoney(this.salary);
     }
     tableString() {
         let tableRow = '<tr>'  + 
@@ -98,7 +111,8 @@ class Employee {
             '<td>' + this.lastName + '</td>' + 
             '<td>' + this.id + '</td>' + 
             '<td>' + this.title + '</td>' + 
-            '<td>' + this.salary + '</td>' + 
+            '<td>' + this.formattedSalary + '</td>' + 
+            '<td><button class="fire">Fire ' + this.firstName + '</button></td>' +
         '</tr>';
         return tableRow;
             

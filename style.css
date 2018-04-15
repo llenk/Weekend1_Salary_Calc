@@ -27,6 +27,7 @@ button {
 table {
     border-collapse: collapse;
     width: 100%;
+    padding: 10px;
 }
 td, th {
     border: 1px solid gray;
@@ -40,4 +41,8 @@ th {
 input {
     height: 24px;
     font-size: 20px;
+}
+#costs {
+    float: right;
+    padding: 10px;
 }
