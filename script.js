@@ -8,11 +8,13 @@ function onReady() {
 //the function below adds the input to the employee array, adds them to the DOM, and updates the monthly costs
 function addEmployee() {
     addEmployeeToArray();
-    $('#listOfEmployees').append(arrayOfEmployees[arrayOfEmployees.length-1].tableString());
+    let index = arrayOfEmployees.length - 1; //index of last employee
+    $('#listOfEmployees').append(arrayOfEmployees[index].tableString(index));
     updateMonthlyCosts();
 }//end addEmployee
 
 //the function below takes in the employee input and adds it to the employee array
+//also clears input boxes
 function addEmployeeToArray() {
     let firstName = $('#firstNameInput').val();
     $('#firstNameInput').val('');
@@ -32,6 +34,9 @@ function updateMonthlyCosts() {
     let costs = calculateMonthlyCosts(); //costs here will be a number
     if (costs > 20000) {
         $('#costs').css('background', 'red');
+    }
+    else {
+        $('#costs').css('background', 'white');
     }
     $('#costs').text('Total Monthly: $' + formatMoney(costs));
     
@@ -89,8 +94,36 @@ function formatMoney(amount) {
 }//end formatMoney
 
 function fireEmployee() {
-    console.log(this);
-    this.parentElement.parentElement.remove();
+    arrayOfEmployees.splice(this.id, 1);
+    $('#listOfEmployees').html('');
+    redoEmployeeTable();
+}
+
+function redoEmployeeTable() {
+    for (let i=0; i<arrayOfEmployees.length; i++) {
+        $('#listOfEmployees').append(arrayOfEmployees[i].tableString(i));
+    }
+    updateMonthlyCosts();
+}
+
+function randomLightGrayish() {
+    let red = randomColorNumber();
+    let green = randomColorNumber();
+    let blue = randomColorNumber();
+    let colorString = 'rgb(' + red + ', ' + green + ', ' + blue + ')';
+    return colorString;
+}
+
+//generates random number in 196-204 or 218-226
+function randomColorNumber() {
+    let number = Math.floor(Math.random()*18); //random number 0-17
+    if (number <= 8) {
+        number += 196;
+    }
+    else {
+        number += 209;
+    }
+    return number;
 }
 
 let arrayOfEmployees = [];
@@ -105,14 +138,19 @@ class Employee {
         this.salary = Number(salary); 
         this.formattedSalary = formatMoney(this.salary);
     }
-    tableString() {
-        let tableRow = '<tr>'  + 
+    tableString(i) {
+        //the fire button has an id to help identifying which employee is being fired
+        let color = 'rgb(211, 211, 211)';
+        if (i%2 == 0) {
+            color = randomLightGrayish();
+        }
+        let tableRow = '<tr style="background:' + color + '">'  + 
             '<td>' + this.firstName + '</td>' + 
             '<td>' + this.lastName + '</td>' + 
             '<td>' + this.id + '</td>' + 
             '<td>' + this.title + '</td>' + 
             '<td>' + this.formattedSalary + '</td>' + 
-            '<td><button class="fire">Fire ' + this.firstName + '</button></td>' +
+            '<td><button class="fire" id=' + i + '>Fire ' + this.firstName + '</button></td>' +
         '</tr>';
         return tableRow;
             
