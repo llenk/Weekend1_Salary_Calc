@@ -1,0 +1,22 @@
+{
+  "name": "weekend1_salary_calc",
+  "version": "1.0.0",
+  "description": "\"weekend 1 assignment\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llenk/Weekend1_Salary_Calc.git"
+  },
+  "author": "llenk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/llenk/Weekend1_Salary_Calc/issues"
+  },
+  "homepage": "https://github.com/llenk/Weekend1_Salary_Calc#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
